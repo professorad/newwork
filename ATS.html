@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Addis Transport System (ATS) | Smart Eco-Mobility for Ethiopia</title>
+  <!-- Tailwind CSS + Font Awesome Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ----- DESIGN SYSTEM - Green + Earthy Tones ----- */
+    :root {
+      --primary: #2D6A4F;
+      --primary-dark: #1B4D3E;
+      --primary-light: #A7E0C0;
+      --primary-soft: #40916C;
+      --secondary: #D4A373;
+      --secondary-dark: #B5835A;
+      --earth: #BC9A6C;
+      --earth-light: #E9D8A6;
+      --success: #2D6A4F;
+      --warning: #E9C46A;
+      --error: #E76F51;
+      --cream: #FEFAE0;
+      --soil: #8B5A2B;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #FEFAE0 0%, #E9F5E9 100%);
+      overflow-x: hidden;
+    }
+
+    /* Smooth animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .animate-fadeInUp {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .animate-slideInLeft {
+      animation: slideInLeft 0.5s ease-out;
+    }
+
+    .page-transition {
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    /* Button press & card animations */
+    .btn-press {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-press:active {
+      transform: scale(0.96);
+    }
+
+    .hover-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hover-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 25px -12px rgba(45, 106, 79, 0.2);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #E9F5E9;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2D6A4F;
+      border-radius: 10px;
+    }
+
+    /* Glass morphism */
+    .glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    /* AI Prediction Pulse Animation */
+    .ai-pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Offline indicator */
+    .offline-badge {
+      animation: fadeInUp 0.3s ease-out;
+    }
+
+    /* Link hover effects */
+    .quick-link {
+      transition: all 0.2s ease;
+    }
+    .quick-link:hover {
+      transform: translateX(5px);
+      color: #2D6A4F;
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #2D6A4F 0%, #D4A373 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* FAQ Accordion */
+    .faq-question {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-answer.active {
+      max-height: 500px;
+    }
+
+    /* AI Demand Card */
+    .demand-card {
+      background: linear-gradient(135deg, #2D6A4F 0%, #40916C 100%);
+      transition: all 0.3s ease;
+    }
+    .demand-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 25px -5px rgba(45, 106, 79, 0.3);
+    }
+
+    /* Nav active */
+    .nav-active {
+      color: #2D6A4F;
+      font-weight: 600;
+      position: relative;
+    }
+    .nav-active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #2D6A4F;
+      border-radius: 2px;
+      animation: slideInLeft 0.3s ease-out;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="glass shadow-lg sticky top-0 z-40 border-b border-[#D4A373]/20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-3 cursor-pointer group" onclick="showPage('home')">
+          <i class="fas fa-leaf text-2xl group-hover:rotate-12 transition-transform" style="color: #2D6A4F;"></i>
+          <span class="font-bold text-xl gradient-text">ATS</span>
+          <span class="hidden sm:inline text-sm text-gray-600">Addis Transport System</span>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex space-x-8">
+          <a href="#" onclick="showPage('home'); return false;" class="nav-link text-gray-700 hover:text-[#2D6A4F] font-medium transition" data-page="home">Home</a>
+          <a href="#" onclick="showPage('about'); return false;" class="nav-link text-gray-700 hover:text-[#2D6A4F] font-medium transition" data-page="about">About</a>
+          <a href="#" onclick="showPage('profiles'); return false;" class="nav-link text-gray-700 hover:text-[#2D6A4F] font-medium transition" data-page="profiles">Profiles</a>
+          <a href="#" onclick="showPage('faq'); return false;" class="nav-link text-gray-700 hover:text-[#2D6A4F] font-medium transition" data-page="faq">FAQ</a>
+          <a href="#" onclick="showPage('ride'); return false;" class="nav-link text-gray-700 hover:text-[#2D6A4F] font-medium transition" data-page="ride">Book Ride</a>
+          <a href="#" onclick="showPage('schedule'); return false;" class="nav-link text-gray-700 hover:text-[#2D6A4F] font-medium transition" data-page="schedule">Schedule</a>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden text-gray-600 focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+        
+        <!-- Offline Indicator -->
+        <div id="offline-indicator" class="hidden items-center space-x-2 bg-[#2D6A4F] text-white px-3 py-1 rounded-full text-sm offline-badge">
+          <i class="fas fa-wifi"></i>
+          <span>Offline Mode</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-[#D4A373]/20 py-4 px-4 space-y-3">
+      <a href="#" onclick="showPage('home'); document.getElementById('mobile-menu').classList.add('hidden'); return false;" class="mobile-nav-link block text-gray-700 hover:text-[#2D6A4F] py-2 transition">Home</a>
+      <a href="#" onclick="showPage('about'); document.getElementById('mobile-menu').classList.add('hidden'); return false;" class="mobile-nav-link block text-gray-700 hover:text-[#2D6A4F] py-2 transition">About</a>
+      <a href="#" onclick="showPage('profiles'); document.getElementById('mobile-menu').classList.add('hidden'); return false;" class="mobile-nav-link block text-gray-700 hover:text-[#2D6A4F] py-2 transition">Profiles</a>
+      <a href="#" onclick="showPage('faq'); document.getElementById('mobile-menu').classList.add('hidden'); return false;" class="mobile-nav-link block text-gray-700 hover:text-[#2D6A4F] py-2 transition">FAQ</a>
+      <a href="#" onclick="showPage('ride'); document.getElementById('mobile-menu').classList.add('hidden'); return false;" class="mobile-nav-link block text-gray-700 hover:text-[#2D6A4F] py-2 transition">Book Ride</a>
+      <a href="#" onclick="showPage('schedule'); document.getElementById('mobile-menu').classList.add('hidden'); return false;" class="mobile-nav-link block text-gray-700 hover:text-[#2D6A4F] py-2 transition">Schedule</a>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <div id="page-container" class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen"></div>
+
+  <!-- Footer with Contact Information -->
+  <footer class="bg-[#1B4D3E] rounded-2xl text-white p-8 mt-12 mx-4 sm:mx-6 lg:mx-8 mb-4">
+    <div class="grid md:grid-cols-4 gap-8">
+      <div class="animate-fadeInUp">
+        <h4 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fas fa-leaf text-[#D4A373]"></i>Addis Transport System</h4>
+        <p class="text-gray-300 text-sm leading-relaxed">Smart, sustainable, and offline-capable mobility solution for Ethiopia. Connecting communities while caring for our environment.</p>
+      </div>
+      <div>
+        <h5 class="font-semibold mb-3 text-[#D4A373]">Quick Links</h5>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <li><a href="#" onclick="showPage('home'); return false;" class="quick-link inline-flex items-center gap-2 hover:text-[#D4A373] transition"><i class="fas fa-chevron-right text-xs"></i>Home</a></li>
+          <li><a href="#" onclick="showPage('ride'); return false;" class="quick-link inline-flex items-center gap-2 hover:text-[#D4A373] transition"><i class="fas fa-chevron-right text-xs"></i>Request Ride</a></li>
+          <li><a href="#" onclick="showPage('schedule'); return false;" class="quick-link inline-flex items-center gap-2 hover:text-[#D4A373] transition"><i class="fas fa-chevron-right text-xs"></i>View Schedule</a></li>
+          <li><a href="#" onclick="toggleOfflineMode(); return false;" class="quick-link inline-flex items-center gap-2 hover:text-[#D4A373] transition"><i class="fas fa-chevron-right text-xs"></i>Offline Mode</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="font-semibold mb-3 text-[#D4A373]">Contact Information</h5>
+        <ul class="space-y-3 text-sm text-gray-300">
+          <li class="flex items-center gap-3"><i class="fas fa-phone-alt text-[#D4A373] w-5"></i><span>+251-911-123456</span></li>
+          <li class="flex items-center gap-3"><i class="fas fa-envelope text-[#D4A373] w-5"></i><span>support@addistransport.com</span></li>
+          <li class="flex items-center gap-3"><i class="fas fa-map-marker-alt text-[#D4A373] w-5"></i><span>Addis Ababa, Ethiopia</span></li>
+          <li class="flex items-center gap-3"><i class="fas fa-clock text-[#D4A373] w-5"></i><span>24/7 Customer Support</span></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="font-semibold mb-3 text-[#D4A373]">Follow Us</h5>
+        <div class="flex space-x-4 mb-4">
+          <i class="fab fa-facebook text-xl hover:text-[#D4A373] cursor-pointer transition-transform hover:scale-110"></i>
+          <i class="fab fa-twitter text-xl hover:text-[#D4A373] cursor-pointer transition-transform hover:scale-110"></i>
+          <i class="fab fa-instagram text-xl hover:text-[#D4A373] cursor-pointer transition-transform hover:scale-110"></i>
+          <i class="fab fa-telegram text-xl hover:text-[#D4A373] cursor-pointer transition-transform hover:scale-110"></i>
+        </div>
+        <div class="mt-4">
+          <p class="text-xs text-gray-400">Download our app</p>
+          <div class="flex space-x-3 mt-2">
+            <i class="fab fa-google-play text-2xl hover:text-[#D4A373] cursor-pointer transition"></i>
+            <i class="fab fa-apple text-2xl hover:text-[#D4A373] cursor-pointer transition"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-[#D4A373]/30 mt-8 pt-6 text-center text-sm text-gray-400">
+      <p>© 2024 Addis Transport System | Smart Eco-Mobility for a Greener Ethiopia 🌱</p>
+      <p class="text-xs mt-2">Reducing carbon footprint, one ride at a time</p>
+    </div>
+  </footer>
+
+  <script>
+    // ---------- GLOBAL STATE ----------
+    let currentPage = 'home';
+    let activeRideStatus = 'idle';
+    let currentPickup = "Bole Medhanialem";
+    let currentDestination = "Piassa";
+    let isOffline = false;
+    
+    // Predictive AI Data - High Demand Areas
+    let highDemandAreas = [
+      { area: "Meskel Square", demand: "Very High", eta: "2-3 min", timeSlot: "8:00-10:00 AM", icon: "fa-flag-checkered" },
+      { area: "Bole International Airport", demand: "High", eta: "3-5 min", timeSlot: "All Day", icon: "fa-plane" },
+      { area: "Mexico Square", demand: "High", eta: "3-4 min", timeSlot: "5:00-7:00 PM", icon: "fa-city" },
+      { area: "Piassa", demand: "Medium-High", eta: "4-6 min", timeSlot: "9:00-11:00 AM", icon: "fa-landmark" },
+      { area: "Saris", demand: "Medium", eta: "5-7 min", timeSlot: "4:00-6:00 PM", icon: "fa-industry" }
+    ];
+    
+    // Mock Drivers
+    const mockDrivers = [
+      { id: 1, name: 'Abel T.', distance: '0.3 km', rating: 4.9, vehicle: 'Toyota Corolla Hybrid', eta: '2 min', plate: 'AA-1234', eco: true },
+      { id: 2, name: 'Meron D.', distance: '0.7 km', rating: 4.8, vehicle: 'Hyundai Ioniq', eta: '4 min', plate: 'AA-5678', eco: true },
+      { id: 3, name: 'Dawit K.', distance: '1.2 km', rating: 4.7, vehicle: 'Kia Niro EV', eta: '6 min', plate: 'AB-9012', eco: true },
+    ];
+    
+    // Schedule Data
+    const busSchedule = [
+      { route: 'Meskel Square → Bole', time: '05:30', next: '15 min', fare: '15 ETB', eco: true },
+      { route: 'Piassa → Mexico', time: '06:00', next: '45 min', fare: '12 ETB', eco: true },
+      { route: 'Kazanchis → Ayat', time: '06:15', next: '1h', fare: '20 ETB', eco: true },
+    ];
+    
+    const trainSchedule = [
+      { route: 'Lideta → Kaliti', time: '06:00', next: '30 min', fare: '8 ETB', eco: true },
+      { route: 'Ayat → Tor Hailoch', time: '07:10', next: '1h 40m', fare: '10 ETB', eco: true },
+    ];
+    
+    // Toast Notification
+    function showToast(message, type = 'info') {
+      let container = document.getElementById('toast-container');
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'fixed top-20 right-4 left-4 md:left-auto md:right-8 z-50 space-y-2 pointer-events-none';
+        document.body.appendChild(container);
+      }
+      
+      const toast = document.createElement('div');
+      let bgColor = 'bg-[#2D6A4F]';
+      if (type === 'success') bgColor = 'bg-[#2D6A4F]';
+      else if (type === 'error') bgColor = 'bg-[#E76F51]';
+      else if (type === 'warning') bgColor = 'bg-[#E9C46A]';
+      
+      const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle';
+      
+      toast.className = `${bgColor} text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transform transition-all duration-300 translate-x-full`;
+      toast.innerHTML = `<i class="fas ${icon}"></i><span class="flex-1 text-sm">${message}</span>`;
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.remove('translate-x-full');
+        toast.classList.add('translate-x-0');
+      }, 10);
+      
+      setTimeout(() => {
+        toast.classList.remove('translate-x-0');
+        toast.classList.add('translate-x-full');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+    
+    // Request Ride
+    function requestRide() {
+      if (!currentPickup || !currentDestination) {
+        showToast("Please enter pickup and destination", "error");
+        return;
+      }
+      activeRideStatus = 'requested';
+      showToast("🌱 Eco-ride requested! Finding nearby green driver...", "success");
+      setTimeout(() => {
+        if (activeRideStatus === 'requested') {
+          activeRideStatus = 'accepted';
+          showToast("🚗 Eco-friendly driver assigned! Arriving in 3 min", "success");
+          renderRidePage();
+        }
+      }, 2000);
+      renderRidePage();
+    }
+    
+    // Toggle Offline Mode
+    function toggleOfflineMode() {
+      isOffline = !isOffline;
+      updateOfflineUI();
+      showToast(isOffline ? "📴 Offline Mode: Actions saved locally. Will sync when online." : "🌐 Online Mode: Ready to sync your data", isOffline ? "warning" : "success");
+      renderCurrentPage();
+    }
+    
+    function updateOfflineUI() {
+      const indicator = document.getElementById('offline-indicator');
+      if (isOffline) {
+        indicator?.classList.remove('hidden');
+        indicator?.classList.add('flex');
+      } else {
+        indicator?.classList.add('hidden');
+      }
+    }
+    
+    function updateActiveNav(page) {
+      document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.getAttribute('data-page') === page) {
+          link.classList.add('nav-active');
+        } else {
+          link.classList.remove('nav-active');
+        }
+      });
+    }
+    
+    // ---------- PAGE RENDERERS ----------
+    
+    // HOME PAGE with Predictive AI
+    function renderHomePage() {
+      return `
+        <div class="page-transition">
+          <!-- Hero Section with Project Description -->
+          <div class="bg-gradient-to-br from-white to-[#E9F5E9] rounded-3xl shadow-xl overflow-hidden border border-[#D4A373]/20 mb-16 animate-fadeInUp">
+            <div class="grid md:grid-cols-2 gap-8 p-8 md:p-12">
+              <div class="space-y-6">
+                <div class="inline-flex items-center px-3 py-1 bg-[#A7E0C0] rounded-full text-sm font-semibold" style="color: #1B4D3E;">
+                  <i class="fas fa-leaf text-xs mr-2"></i>
+                  Eco-Friendly Smart Transport
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                  Smart Mobility for
+                  <span class="gradient-text">Addis Ababa</span>
+                </h1>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                  <span class="font-semibold text-[#2D6A4F]">ATS (Addis Transport System)</span> is Ethiopia's first offline-capable, eco-conscious transport platform. 
+                  We combine AI-powered demand prediction, green vehicle incentives, and reliable service to create a sustainable 
+                  mobility ecosystem for all Ethiopians.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-4">
+                  <button onclick="showPage('ride')" class="px-8 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition btn-press shadow-lg flex items-center gap-2" style="background-color: #2D6A4F;">
+                    <i class="fas fa-taxi"></i>Request Ride
+                  </button>
+                  <button onclick="showPage('schedule')" class="px-8 py-3 border-2 rounded-xl font-semibold transition btn-press flex items-center gap-2" style="border-color: #2D6A4F; color: #2D6A4F;">
+                    <i class="fas fa-calendar-alt"></i>View Schedule
+                  </button>
+                  <button onclick="toggleOfflineMode()" class="px-8 py-3 border-2 rounded-xl font-semibold transition btn-press flex items-center gap-2" style="border-color: #D4A373; color: #D4A373;">
+                    <i class="fas fa-wifi"></i>${isOffline ? 'Go Online' : 'Offline Mode'}
+                  </button>
+                </div>
+                <div class="flex flex-wrap items-center gap-6 pt-4">
+                  <div class="flex items-center space-x-2"><i class="fas fa-leaf" style="color: #2D6A4F;"></i><span class="text-sm text-gray-600">Eco-friendly fleet</span></div>
+                  <div class="flex items-center space-x-2"><i class="fas fa-brain" style="color: #2D6A4F;"></i><span class="text-sm text-gray-600">AI demand prediction</span></div>
+                  <div class="flex items-center space-x-2"><i class="fas fa-mobile-alt" style="color: #2D6A4F;"></i><span class="text-sm text-gray-600">Offline-first</span></div>
+                </div>
+              </div>
+              <div class="hidden md:flex items-center justify-center relative">
+                <div class="relative">
+                  <div class="absolute inset-0 rounded-full blur-3xl opacity-20 animate-pulse" style="background: linear-gradient(135deg, #2D6A4F 0%, #D4A373 100%);"></div>
+                  <div class="relative z-10 text-center">
+                    <i class="fas fa-bus text-8xl" style="color: #2D6A4F;"></i>
+                    <div class="absolute -top-4 -right-4 bg-[#D4A373] rounded-full p-2 shadow-lg animate-pulse"><i class="fas fa-leaf text-white text-sm"></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Predictive AI - High Demand Areas -->
+          <div class="mb-16 animate-slideInLeft">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 bg-[#2D6A4F] rounded-full flex items-center justify-center ai-pulse">
+                <i class="fas fa-brain text-white text-lg"></i>
+              </div>
+              <h2 class="text-2xl md:text-3xl font-bold text-gray-800">AI-Powered Demand Prediction</h2>
+              <span class="px-3 py-1 bg-[#A7E0C0] text-[#1B4D3E] rounded-full text-xs font-semibold">Live</span>
+            </div>
+            <p class="text-gray-600 mb-6">Our AI analyzes real-time data to predict high-demand areas, helping drivers optimize routes and reducing wait times.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+              ${highDemandAreas.map(area => `
+                <div class="demand-card rounded-xl p-5 text-white hover-card cursor-pointer" onclick="showToast('High demand area: ${area.area} - ${area.demand} demand. Drivers dispatched!', 'success')">
+                  <div class="flex items-center justify-between mb-3">
+                    <i class="fas ${area.icon} text-2xl"></i>
+                    <span class="px-2 py-1 bg-white/20 rounded-full text-xs font-semibold">${area.demand}</span>
+                  </div>
+                  <h3 class="text-lg font-bold mb-1">${area.area}</h3>
+                  <p class="text-sm text-white/80 mb-2">⏱️ ${area.eta} wait time</p>
+                  <p class="text-xs text-white/70">Peak: ${area.timeSlot}</p>
+                  <div class="mt-3 h-1 bg-white/20 rounded-full overflow-hidden">
+                    <div class="h-full bg-white rounded-full" style="width: ${area.demand === 'Very High' ? '95%' : area.demand === 'High' ? '80%' : area.demand === 'Medium-High' ? '65%' : '50%'}"></div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+            <div class="bg-white rounded-xl p-6 text-center shadow-md hover-card">
+              <i class="fas fa-users text-3xl mb-3" style="color: #2D6A4F;"></i>
+              <p class="text-2xl font-bold text-gray-800">10,000+</p>
+              <p class="text-sm text-gray-500">Active Users</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 text-center shadow-md hover-card">
+              <i class="fas fa-car text-3xl mb-3" style="color: #2D6A4F;"></i>
+              <p class="text-2xl font-bold text-gray-800">500+</p>
+              <p class="text-sm text-gray-500">Eco Drivers</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 text-center shadow-md hover-card">
+              <i class="fas fa-leaf text-3xl mb-3" style="color: #2D6A4F;"></i>
+              <p class="text-2xl font-bold text-gray-800">50,000+</p>
+              <p class="text-sm text-gray-500">Green Rides</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 text-center shadow-md hover-card">
+              <i class="fas fa-star text-3xl mb-3" style="color: #2D6A4F;"></i>
+              <p class="text-2xl font-bold text-gray-800">4.9/5</p>
+              <p class="text-sm text-gray-500">User Rating</p>
+            </div>
+          </div>
+          
+          <!-- CTA Section -->
+          <div class="bg-gradient-to-r from-[#2D6A4F] to-[#40916C] rounded-2xl p-8 text-center text-white hover-card">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4">🌱 Ready for a greener ride?</h2>
+            <p class="text-green-100 mb-6">Join thousands of eco-conscious riders choosing sustainable transport</p>
+            <div class="flex flex-wrap gap-4 justify-center">
+              <button onclick="showPage('ride')" class="px-6 py-2 bg-white text-[#2D6A4F] rounded-lg font-semibold hover:bg-gray-100 transition btn-press">Request a Ride</button>
+              <button onclick="showPage('schedule')" class="px-6 py-2 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-[#2D6A4F] transition btn-press">View Schedule</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    // Schedule Page
+    function renderSchedulePage() {
+      return `
+        <div class="page-transition">
+          <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Transport <span class="gradient-text">Schedule</span></h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Plan your journey with our eco-friendly public transport options</p>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-2xl shadow-xl p-6 hover-card">
+              <div class="flex items-center gap-3 mb-6">
+                <i class="fas fa-bus text-3xl" style="color: #2D6A4F;"></i>
+                <h2 class="text-2xl font-bold text-gray-800">Bus Schedule</h2>
+              </div>
+              <div class="space-y-4">
+                ${busSchedule.map(item => `
+                  <div class="flex items-center justify-between p-4 bg-[#FEFAE0] rounded-xl">
+                    <div>
+                      <p class="font-semibold text-gray-800">${item.route}</p>
+                      <p class="text-xs text-gray-500 mt-1">Departure: ${item.time}</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-sm font-bold" style="color: #2D6A4F;">${item.next}</p>
+                      <p class="text-xs text-gray-500">${item.fare}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-xl p-6 hover-card">
+              <div class="flex items-center gap-3 mb-6">
+                <i class="fas fa-train text-3xl" style="color: #2D6A4F;"></i>
+                <h2 class="text-2xl font-bold text-gray-800">Train Schedule</h2>
+              </div>
+              <div class="space-y-4">
+                ${trainSchedule.map(item => `
+                  <div class="flex items-center justify-between p-4 bg-[#FEFAE0] rounded-xl">
+                    <div>
+                      <p class="font-semibold text-gray-800">${item.route}</p>
+                      <p class="text-xs text-gray-500 mt-1">Departure: ${item.time}</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-sm font-bold" style="color: #2D6A4F;">${item.next}</p>
+                      <p class="text-xs text-gray-500">${item.fare}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    // Ride Page
+    function renderRidePage() {
+      return `
+        <div class="page-transition">
+          <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-8">
+              <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Book Your <span class="gradient-text">Eco-Ride</span></h1>
+              <p class="text-gray-600">AI-powered matching with nearby green vehicles</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 hover-card">
+              <div class="space-y-4">
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Pickup Location</label>
+                    <div class="relative">
+                      <i class="fas fa-map-marker-alt absolute left-3 top-3 text-[#2D6A4F]"></i>
+                      <input type="text" id="pickup-input" value="${currentPickup}" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent transition" placeholder="Your location">
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Destination</label>
+                    <div class="relative">
+                      <i class="fas fa-flag-checkered absolute left-3 top-3 text-[#2D6A4F]"></i>
+                      <input type="text" id="dest-input" value="${currentDestination}" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:border-transparent transition" placeholder="Where to?">
+                    </div>
+                  </div>
+                </div>
+                
+                <button id="request-ride-btn" class="w-full text-white py-4 rounded-xl font-semibold hover:opacity-90 transition btn-press shadow-md flex items-center justify-center gap-2" style="background-color: #2D6A4F;">
+                  <i class="fas fa-leaf"></i>Request Eco-Ride
+                </button>
+                
+                <div class="border-t border-gray-200 pt-4">
+                  <h3 class="font-semibold text-gray-800 mb-3">🚗 Nearby Eco-Friendly Drivers</h3>
+                  <div class="space-y-2">
+                    ${mockDrivers.map(driver => `
+                      <div class="flex items-center justify-between p-3 bg-[#FEFAE0] rounded-lg hover-card cursor-pointer" onclick="showToast('Driver ${driver.name} is available!', 'success')">
+                        <div class="flex items-center gap-3">
+                          <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: rgba(45, 106, 79, 0.1);">
+                            <i class="fas fa-user" style="color: #2D6A4F;"></i>
+                          </div>
+                          <div>
+                            <p class="font-semibold text-gray-800 text-sm">${driver.name}</p>
+                            <p class="text-xs text-gray-500">${driver.vehicle} • ${driver.distance}</p>
+                          </div>
+                        </div>
+                        <div class="text-right">
+                          <p class="text-sm font-bold" style="color: #2D6A4F;">${driver.eta}</p>
+                          <p class="text-xs text-gray-400">⭐ ${driver.rating}</p>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+                
+                ${activeRideStatus !== 'idle' ? `
+                  <div class="p-4 rounded-lg" style="background: linear-gradient(135deg, #2D6A4F 0%, #40916C 100%); color: white;">
+                    <div class="flex justify-between items-center mb-3">
+                      <span class="font-semibold">Ride Status</span>
+                      <span class="text-xs">${activeRideStatus === 'accepted' ? 'Eco-Driver Assigned' : 'Searching...'}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <div class="text-center flex-1"><div class="w-6 h-6 bg-white rounded-full flex items-center justify-center mx-auto mb-1"><i class="fas fa-check text-xs" style="color: #2D6A4F;"></i></div><span class="text-xs">Requested</span></div>
+                      <div class="flex-1 h-1 bg-white bg-opacity-30 rounded mx-2"><div class="h-full bg-white rounded" style="width: ${activeRideStatus === 'accepted' ? '100%' : '0%'}"></div></div>
+                      <div class="text-center flex-1"><div class="w-6 h-6 bg-white rounded-full flex items-center justify-center mx-auto mb-1"><i class="fas fa-car text-xs" style="color: #2D6A4F;"></i></div><span class="text-xs">Accepted</span></div>
+                    </div>
+                    ${activeRideStatus === 'accepted' ? '<p class="mt-3 text-center text-sm">🚗 Eco-driver Abel arriving in 3 min • AA-1234 (Electric Vehicle)</p>' : ''}
+                  </div>
+                ` : ''}
+                
+                ${isOffline ? '<div class="mt-4 p-3 bg-[#E9C46A] text-[#8B5A2B] rounded-lg text-sm text-center"><i class="fas fa-wifi mr-2"></i>Offline Mode: Your ride request will be saved locally and synced when online.</div>' : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    // Other pages (About, Profiles, FAQ) with same styling...
+    function renderAboutPage() { return `<div class="page-transition"><div class="text-center"><h1 class="text-4xl font-bold gradient-text">About ATS</h1><p class="mt-4 text-gray-600">Coming soon...</p></div></div>`; }
+    function renderProfilesPage() { return `<div class="page-transition"><div class="text-center"><h1 class="text-4xl font-bold gradient-text">Driver & Passenger Profiles</h1><p class="mt-4 text-gray-600">Coming soon...</p></div></div>`; }
+    function renderFaqPage() { return `<div class="page-transition"><div class="text-center"><h1 class="text-4xl font-bold gradient-text">FAQ</h1><p class="mt-4 text-gray-600">Coming soon...</p></div></div>`; }
+    
+    function renderCurrentPage() {
+      switch(currentPage) {
+        case 'home': document.getElementById('page-container').innerHTML = renderHomePage(); break;
+        case 'about': document.getElementById('page-container').innerHTML = renderAboutPage(); break;
+        case 'profiles': document.getElementById('page-container').innerHTML = renderProfilesPage(); break;
+        case 'faq': document.getElementById('page-container').innerHTML = renderFaqPage(); break;
+        case 'ride': renderRidePage(); break;
+        case 'schedule': document.getElementById('page-container').innerHTML = renderSchedulePage(); break;
+        default: document.getElementById('page-container').innerHTML = renderHomePage();
+      }
+      
+      if (currentPage === 'ride') {
+        setTimeout(() => {
+          const pickupInput = document.getElementById('pickup-input');
+          const destInput = document.getElementById('dest-input');
+          const requestBtn = document.getElementById('request-ride-btn');
+          if (pickupInput) pickupInput.addEventListener('input', (e) => currentPickup = e.target.value);
+          if (destInput) destInput.addEventListener('input', (e) => currentDestination = e.target.value);
+          if (requestBtn) requestBtn.addEventListener('click', requestRide);
+        }, 100);
+      }
+    }
+    
+    function showPage(page) {
+      currentPage = page;
+      updateActiveNav(page);
+      renderCurrentPage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Mobile Menu
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.toggle('hidden');
+    });
+    
+    // Initialize
+    renderCurrentPage();
+    updateOfflineUI();
+    
+    window.addEventListener('online', () => { if(isOffline) toggleOfflineMode(); else showToast("🌐 Back online! Data will sync automatically", "success"); });
+    window.addEventListener('offline', () => { if(!isOffline) toggleOfflineMode(); });
+  </script>
+</body>
+</html>
